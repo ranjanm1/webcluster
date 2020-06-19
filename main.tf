@@ -8,10 +8,10 @@ provider "aws" {
 }
 
 resource "aws_launch_configuration" "example" {
-  image_id        = "ami-032598fcc7e9d1c7a"
+  image_id        = "ami-0eb89db7593b5d434"
   instance_type   = var.instance_type
   security_groups = [aws_security_group.instance.id]
-  #user_data       = data.template_file.user_data.rendered
+  user_data       = data.template_file.user_data.rendered
 
   # Required when using a launch configuration with an auto scaling group.
   # https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
@@ -20,16 +20,16 @@ resource "aws_launch_configuration" "example" {
   }
 }
 
-#data "template_file" "user_data" {
+data "template_file" "user_data" {
 #  template = file("${path.module}/user-data.sh")
-#   template = file("user-data.sh")
+   template = file("user-data.sh")
 
 #  vars = {
 #    server_port = var.server_port
 #    db_address  = data.terraform_remote_state.db.outputs.address
 #    db_port     = data.terraform_remote_state.db.outputs.port
 #  }
-#}
+}
 
 resource "aws_autoscaling_group" "example" {
   launch_configuration = aws_launch_configuration.example.name
